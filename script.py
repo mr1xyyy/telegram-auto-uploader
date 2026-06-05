@@ -3,8 +3,8 @@ import requests
 import glob
 
 # --- NAS-TROY-KI ---
-TOKEN = "8363786028:AAHSKPRD1cKVmp0v72euhcUKuNWdYnBLWRU"
-CHAT_ID = "6637140044"
+TOKEN = "BOT_TOKEN"
+CHAT_ID = "CHAT_ID"
 
 # Bazi put k Downloads
 DOWNLOADS_DIR = os.path.join(os.path.expanduser("~"), "Downloads")
