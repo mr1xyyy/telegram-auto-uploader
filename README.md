@@ -10,7 +10,7 @@ Windows kompyuteridagi `Downloads` va `Telegram Desktop` papkalaridagi yangi fay
 - **Smart Filtr (Takroriy yubormaslik):** Oldin yuborilgan fayllarni eslab qoladi (`sent_files.json` orqali) va ularni qayta yubormaydi.
 - **Xavfsiz filtr:** Chala yuklangan fayllar (`.tmp`, `.crdownload`) va xavfli formatlarni (`.exe`, `.bat`) o'tkazib yuboradi.
 - **Multithreading:** Fayllarni parallel ravishda tezkor yuboradi.
-- **Auto-start (Avtostart):** Kompyuter yoqilganda dastur o'zini Windows reyestriga qo'shib, fonda o'zi ishlay boshlaydi.
+- **Auto-start (Avtostart):** Windows `shell:startup` papkasi orqali kafolatlangan va barqaror avtostart qilinadi.
 
 ---
 
@@ -58,36 +58,43 @@ Windows kompyuteridagi `Downloads` va `Telegram Desktop` papkalaridagi yangi fay
 
 ---
 
-## .EXE Faylga O'tkazish va Avtostart
+## .EXE Faylga O'tkazish, Ikonka va Avtostart
 
-Agar dastur Python muhitisiz, alohida dastur (`.exe`) bo'lib ishlashini va kompyuter yoqilganda o'zi avtomatik ishga tushishini xohlasangiz:
+Dasturni `.exe` formatga o'tkazish, unga maxsus ikonka qo'shish va avtostartga sozlash tartibi:
 
-1. **PyInstaller yordamida `.exe` yaratish:**
+1. **PyInstaller yordamida `.exe` yaratish (`src` papkasi ichidagi ikonka bilan):**
 
    Terminalda quyidagi buyruqni bosing:
 
    ```bash
-   pyinstaller --noconsole --onefile script.py
+   pyinstaller --noconsole --onefile --icon=src/ikonka_nomi.ico script.py
    ```
 
-   Natijada `dist` papkasi ichida `script.exe` hosil bo'ladi.
+   Eslatma: `src/ikonka_nomi.ico` qismiga `src` papkangizdagi ikonka faylining haqiqiy nomini yozasiz.
 
 2. **Muhim fayllarni joylashtirish:**
 
-   `script.exe` fayli turgan joyda albatta `.env` fayli ham birga turishi kerak. Aks holda bot tokenni topa olmaydi.
+   `dist` papkasidan chiqqan `script.exe` faylini o'zingizga qulay bo'lgan doimiy papkaga ko'chiring va uning yoniga albatta `.env` faylini ham qo'ying.
 
-3. **Avtostart funksiyasi:**
+3. **Avtostartga qo'shish (Startup usuli):**
 
-   Kodning o'ziga avtostartga qo'shilish funksiyasi (`winreg` orqali) yozilgani uchun, `.exe` faylni birinchi marta qo'lda bir marta ochib qo'yasiz. Shundan so'ng u avtomatik ravishda Windows reyestriga yoziladi va kompyuterni har safar yoqganingizda fonda o'zi ishlay boshlaydi.
+   - Klaviaturadan **Win + R** tugmalarini bosing.
+   - Chiqqan oynaga `shell:startup` deb yozib, **Enter** ni bosing.
+   - Tayyor bo'lgan `script.exe` fayl ustiga o'ng tugmani bosib **Create shortcut** (Yorliq yaratish) ni tanlang.
+   - Hosil bo'lgan yorliqni ochilgan `Startup` papkasining ichiga tashlab qo'ying.
+
+   Shu tariqa kompyuter har safar yoqilganda dastur hech qanday muammosiz fonda avtomatik ishga tushadi.
 
 ---
 
 ## Loyiha Tuzilmasi
 
 ```plaintext
-|-- script.py          # Asosiy Python kodi
-|-- .env               # Maxfiy tokenlar (git'ga qo'shilmaydi)
-|-- requirements.txt   # Kerakli kutubxonalar ro'yxati
-|-- .gitignore         # Git e'tibor bermaydigan fayllar
-`-- sent_files.json    # Yuborilgan fayllar bazasi (avtomatik hosil bo'ladi)
+|-- src/
+|   `-- ikonka.ico         # Dastur uchun maxsus ikonka fayli
+|-- script.py              # Asosiy Python kodi
+|-- .env                   # Maxfiy tokenlar (git'ga qo'shilmaydi)
+|-- requirements.txt       # Kerakli kutubxonalar ro'yxati
+|-- .gitignore             # Git e'tibor bermaydigan fayllar
+`-- sent_files.json        # Yuborilgan fayllar bazasi (avtomatik hosil bo'ladi)
 ```
